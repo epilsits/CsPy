@@ -27,22 +27,22 @@ class RC4:
             self.key[i], self.key[j] = self.key[j], self.key[i]
             yield self.key[(self.key[i] + self.key[j]) % 256]
 
-    def Rc4CryptBytes(self, bytearr):
+    def CryptBytes(self, bytearr):
         for i in range(len(bytearr)):
             bytearr[i] = bytearr[i] ^ self.gen.__next__()
         return bytearr
 
-    def Rc4CryptText(self, text, encoding="iso-8859-1"):
+    def CryptText(self, text, encoding="iso-8859-1"):
         # same as Latin1
         arr = bytearray(text.encode(encoding))
-        return self.Rc4CryptBytes(arr).decode(encoding)
+        return self.CryptBytes(arr).decode(encoding)
 
-    def Rc4CryptFile(self, infile, outfile):
+    def CryptFile(self, infile, outfile):
         if not path.isfile(infile): raise Exception("Input file does not exist.")
         with open(infile, 'rb') as src:
             with open(outfile, 'wb') as dest:
                 while True:
                     data = bytearray(src.read(1048576))
                     if len(data) == 0: break
-                    dest.write(self.Rc4CryptBytes(data))
+                    dest.write(self.CryptBytes(data))
                     
