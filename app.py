@@ -12,12 +12,23 @@ import time
 # dec = rc4.CryptText(enc)
 # print("Encoded: {}\nDecoded: {}".format(enc, dec))
 
-size = 10 * 1024 * 1024
+size = 100 * 1024 * 1024
+rc4 = RC4("boomstick".encode("iso-8859-1"), 5)
+b = bytearray(size)
 start = time.perf_counter()
-rc4 = RC4("boomstick", 1)
-b = rc4.gen.send(size)
+#print([i for i in rc4.CryptText("Hello World")])
+#rc4.CryptBytes(b)
+rc4.CryptFile("testfiles/file.dat.enc", "testfiles/file.dat.dec")
 print("{} MB stream: {:4f}".format(size / 1024 / 1024, time.perf_counter() - start))
 print("Last byte: {:#x}".format(b[-1]))
+
+''' enc = CipherSaber().EncryptText("Hello World", "boomstick", 5)
+print(type(enc))
+print([i for i in enc])
+
+dec = CipherSaber().DecryptText(enc, "boomstick", 5)
+print(type(dec))
+print(dec) '''
 
 # CipherSaber().DecryptFile("testfiles/cknight.cs1", "testfiles/cknight.gif", "ThomasJefferson", 1)
 

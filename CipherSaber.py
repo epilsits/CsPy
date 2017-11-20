@@ -33,10 +33,10 @@ class CipherSaber:
         iv = urandom(10)
         keybytes = key[:246].encode(encoding) + iv
         rc4 = RC4(keybytes, rounds)
-        return iv.decode(encoding) + rc4.CryptText(text, encoding)
+        return iv + rc4.CryptText(text, encoding)
 
-    def DecryptText(self, text, key, rounds=20, encoding="iso-8859-1"):
-        keybytes = key[:246].encode(encoding) + text[:10].encode(encoding)
+    def DecryptText(self, data, key, rounds=20, encoding="iso-8859-1"):
+        keybytes = key[:246].encode(encoding) + data[:10]
         rc4 = RC4(keybytes, rounds)
-        return rc4.CryptText(text[10:], encoding)
+        return rc4.CryptBytes(bytearray(data[10:])).decode(encoding)
         
